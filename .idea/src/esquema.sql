@@ -86,3 +86,26 @@ create table public.pagamento (
     constraint fk_pagamento_consulta foreign KEY (id_consulta) references consulta (id),
     constraint fk_pagamento_recepcionista foreign KEY (id_recepcionista) references recepcionista (id)
 ) TABLESPACE pg_default;
+
+create table public.prontuario (
+  id serial not null,
+  id_paciente integer not null,
+  diagnostico character varying(255) not null,
+  tratamento character varying(255) null,
+  data_registro date not null,
+  observacao character varying(255) null,
+  constraint prontuario_pkey primary key (id),
+  constraint fk_prontuario_paciente foreign KEY (id_paciente) references paciente (id)
+) TABLESPACE pg_default;
+
+create table public.recepcionista (
+  id serial not null,
+  cpf character varying(11) not null,
+  nome character varying(100) not null,
+  telefone character varying(20) null,
+  email character varying(100) null,
+  id_usuario uuid null,
+  constraint recepcionista_pkey primary key (id),
+  constraint recepcionista_id_usuario_key unique (id_usuario),
+  constraint recepcionista_id_usuario_fkey foreign KEY (id_usuario) references auth.users (id)
+) TABLESPACE pg_default;
